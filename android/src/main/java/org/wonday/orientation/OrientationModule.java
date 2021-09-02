@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.view.Display;
 import android.view.OrientationEventListener;
 import android.view.Surface;
@@ -156,7 +157,9 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Ori
     public void lockToPortrait() {
         final Activity activity = getCurrentActivity();
         if (activity == null) return;
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         isLocked = true;
 
         // force send an UI orientation event
